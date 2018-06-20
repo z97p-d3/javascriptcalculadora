@@ -26,7 +26,6 @@ var calculadora = {
 		operacion: 0,
 
 
-
 		//metodo para mostrar numeros en pantalla
 
 		numero1: function () {
@@ -234,14 +233,10 @@ var calculadora = {
 		},
 		presionartecla1: function () {
 			calculadora.uno.style = "width:26% ;height: 58.91px"
-
 			calculadora.numero1()
-
-
 		},
 		retornartecla1: function () {
 			calculadora.uno.style = "width:28% ;height: 62.91px"
-
 		},
 		presionarteclamas: function () {
 			document.getElementById('mas').style = "  width: 88%; height: 98%; margin-left: 8px"
@@ -268,14 +263,13 @@ var calculadora = {
 		presionartecla3: function () {
 			document.getElementById('3').style = "width:26% ;height: 58.91px"
 			calculadora.numero3();
-
 		},
 		retornartecla3: function () {
 			document.getElementById('3').style = "width:29% ;height: 62.91px"
 		},
 		presionarteclapunto: function () {
 			document.getElementById('punto').style = "width:26% ;height: 58.91px"
-			calculadora.punto();
+			calculadora.agregarPunto();
 		},
 		retornarteclapunto: function () {
 			document.getElementById('punto').style = "width:28% ;height: 62.91px"
@@ -286,27 +280,40 @@ var calculadora = {
 		},
 		retornarteclaigual: function () {
 			document.getElementById('igual').style = "width:29% ;height: 62.91px"
-
 		},
 
 		//calculos 
 
 
-		punto: function () {
-			var puntos = calculadora.display.textContent == "."
-			if (puntos) {
-				return calculadora.display.textContent
+		agregarPunto: function () {
+			var elemento = calculadora.display
+			if (elemento.textContent.indexOf('.') < 0) {
+				var displayNew = elemento.textContent + '.';
+				elemento.textContent = displayNew;
+			}
+		},
+
+		sigononegativo: function () {
+
+			var elemento1 = calculadora.display
+			if (elemento1.textContent.indexOf('-') < 0) {
+				var elemento3 = "-" + elemento1.textContent
+				elemento1.textContent = elemento3
+				calculadora.cerosigno()
+
+
 			} else {
-				calculadora.display.textContent += "."
+				var elemento7 = -1 * calculadora.display.textContent
+				calculadora.display.textContent = elemento7
 			}
 
 		},
-		sigononegativo: function () {
-			var numera = calculadora.display.innerHTML == "0"
-			if (numera) {
-				calculadora.display.textContent = "0"
-			} else {
-				calculadora.display.textContent = "-" + calculadora.display.textContent
+
+		cerosigno: function () {
+			var elemento2 = calculadora.display
+			if (elemento2.textContent.indexOf('0') > 0) {
+				var elemento4 = "0"
+				elemento2.textContent = elemento4
 			}
 
 		},
@@ -347,9 +354,9 @@ var calculadora = {
 
 
 			calculadora.operandob += calculadora.display.textContent
-		
-				calculadora.resolver()
-			
+
+			calculadora.resolver()
+
 		},
 
 		resetear: function () {
@@ -362,13 +369,15 @@ var calculadora = {
 		resolver: function () {
 
 			var res = 0;
-	
+
+
 
 			switch (calculadora.operacion) {
+
 				case "+":
-					
+
 					res = parseFloat(calculadora.operandoa) + parseFloat(calculadora.operandob);
-					
+
 					break;
 				case "-":
 					res = parseFloat(calculadora.operandoa) - parseFloat(calculadora.operandob);
@@ -381,19 +390,20 @@ var calculadora = {
 				case "/":
 					res = parseFloat(calculadora.operandoa) / parseFloat(calculadora.operandob);
 
+
 			}
 
 			calculadora.resetear()
-		
-			 calculadora.display.textContent=res
-		
+			if(calculadora.display.textContent.length<=7){
+				
 
-
-
-
+			calculadora.display.textContent =res
+			}
+			
 
 
 		},
+
 
 		//carga de metodos
 		inicializacion: function () {
